@@ -1,7 +1,7 @@
 import React from "react";
 
 const Display = () => {
-  return <h1>display</h1>;
+  return <div className="calcDisplay"></div>;
 };
 
 export default Display;

@@ -1,13 +1,14 @@
 import React from "react";
+import "./styles.css";
 import Display from "./display.jsx";
 import ButtonsPanel from "./buttons.jsx";
 
 const Calculator = () => {
   return (
-    <>
+    <div className="calcBody">
       <Display />
       <ButtonsPanel />
-    </>
+    </div>
   );
 };
 
