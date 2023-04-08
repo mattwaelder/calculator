@@ -2,7 +2,7 @@ import React from "react";
 import Button from "./button.jsx";
 import "./styles.css";
 
-const ButtonsPanel = () => {
+const ButtonsPanel = ({ handlePress }) => {
   //listing buttons in a strange way so thati dont need multiple grids
   const buttonList = [
     1,
@@ -28,7 +28,9 @@ const ButtonsPanel = () => {
 
   return (
     <div className="buttonPanelContainer">
-      {buttonList.map((button, i) => <Button btn={button} />) || null}
+      {buttonList.map((button, i) => (
+        <Button btn={button} handlePress={handlePress} key={button} />
+      )) || null}
     </div>
   );
 };

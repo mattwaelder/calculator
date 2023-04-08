@@ -1,13 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
 import Display from "./display.jsx";
 import ButtonsPanel from "./buttons.jsx";
 
 const Calculator = () => {
+  //functions and states
+  const [display, setDisplay] = useState("800815");
+  //lists for operands and operators to help with order of ops
+  const [operands, setOperands] = useState([]);
+  const [operators, setOperators] = useState([]);
+  //may not need to do that, maybe js can handle it all
+  const [problem, setProblem] = useState("");
+
+  const handleSubmit = () => {
+    let result = problem;
+    result += display;
+    setDisplay(eval(result));
+  };
+
+  const handlePress = (e) => {
+    console.log("button pressed", e.target.id);
+    let btn = e.target.id;
+
+    //logic
+    //operand
+    if (btn >= 0 || btn === ".") {
+      setDisplay((display) => Number(display + btn));
+    }
+    //operator
+    if (["+", "-", "x", "/", "^"].includes(btn)) {
+      console.log("operator");
+
+      let currOperands = operands;
+      currOperands.push(display);
+      setOperands(currOperands);
+
+      let currOperators = operators;
+      currOperators.push(btn);
+      setOperators(currOperators);
+
+      let currProblem = problem;
+      currProblem += display + btn;
+      setProblem(currProblem);
+
+      setDisplay("");
+    }
+    //execute
+    if (btn === "=") {
+      // alert(operands, operators);
+
+      let currOperands = operands;
+      currOperands.push(display);
+      setOperands(currOperands);
+
+      let currProblem = problem;
+      currProblem += display;
+      setProblem(currProblem);
+
+      handleSubmit();
+    }
+    //reset
+    if (btn === "c") {
+      setDisplay("");
+      setOperands([]);
+      setOperators([]);
+      setProblem("");
+    }
+    //backspace
+    if (btn === "del") {
+      setDisplay((display) => display.slice(0, display.length - 1));
+    }
+  };
+
   return (
     <div className="calcBody">
-      <Display />
-      <ButtonsPanel />
+      <Display display={display} />
+      <ButtonsPanel handlePress={handlePress} />
     </div>
   );
 };
@@ -17,11 +85,7 @@ export default Calculator;
 // a calculator application
 /*
 
-screen
-  screen shows accumulation of imputs
-  screen refreshes with answer once = is pressed
-
-buttons
-  0-9 + - x / ^ = del . c
+do i need to use Math() for anything here or can Js handle it all?
+i feel like im overcomplicating this
 
 */

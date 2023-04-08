@@ -9,7 +9,7 @@ html body {
 }
 
 .calcBody {
-  background-color: white;
+  background-color: lightslategray;
   width: 30vw;
   height: auto;
   padding: 3em 0 3em 0;
@@ -26,8 +26,11 @@ html body {
 .calcDisplay {
   width: 80%;
   height: 3em;
-  background: lightblue;
+  background: white;
   margin-bottom: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .buttonPanelContainer {
@@ -43,7 +46,8 @@ html body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: lightblue;
+  background-color: white;
   /* border: 1px solid cornflowerblue; */
   border-radius: 6px;
+  cursor: pointer;
 }
