@@ -5,16 +5,20 @@ import ButtonsPanel from "./buttons.jsx";
 
 const Calculator = () => {
   //functions and states
-  const [display, setDisplay] = useState("800815");
+  const [display, setDisplay] = useState("0");
+  const [displayTop, setDisplayTop] = useState("");
   //lists for operands and operators to help with order of ops
   const [operands, setOperands] = useState([]);
   const [operators, setOperators] = useState([]);
   //may not need to do that, maybe js can handle it all
   const [problem, setProblem] = useState("");
 
+  const evaluate = (operands, operators) => {};
+
   const handleSubmit = () => {
     let result = problem;
     result += display;
+    setDisplayTop("");
     setDisplay(eval(result));
   };
 
@@ -42,7 +46,7 @@ const Calculator = () => {
       let currProblem = problem;
       currProblem += display + btn;
       setProblem(currProblem);
-
+      setDisplayTop(currProblem);
       setDisplay("");
     }
     //execute
@@ -62,6 +66,7 @@ const Calculator = () => {
     //reset
     if (btn === "c") {
       setDisplay("");
+      setDisplayTop("");
       setOperands([]);
       setOperators([]);
       setProblem("");
@@ -74,7 +79,7 @@ const Calculator = () => {
 
   return (
     <div className="calcBody">
-      <Display display={display} />
+      <Display display={display} displayTop={displayTop} />
       <ButtonsPanel handlePress={handlePress} />
     </div>
   );
@@ -87,5 +92,14 @@ export default Calculator;
 
 do i need to use Math() for anything here or can Js handle it all?
 i feel like im overcomplicating this
+
+
+screen has 2 things displayed
+top bit is previous number plus the operation
+bottom is whats currently being typed up
+if user hits another operation the calculator evaluates the top operation when the next operation is pressed and displays the result in place.
+1+2 if user hits *
+then 1+2 changes to 3
+
 
 */
