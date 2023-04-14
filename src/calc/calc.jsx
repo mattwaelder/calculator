@@ -26,15 +26,17 @@ const Calculator = () => {
     console.log("button pressed", e.target.id);
     let btn = e.target.id;
 
+    if (btn === "x") {
+      btn = "*";
+    }
+
     //logic
     //operand
     if (btn >= 0 || btn === ".") {
       setDisplay((display) => Number(display + btn));
     }
     //operator
-    if (["+", "-", "x", "/", "^"].includes(btn)) {
-      console.log("operator");
-
+    if (["+", "-", "*", "/", "^"].includes(btn)) {
       let currOperands = operands;
       currOperands.push(display);
       setOperands(currOperands);
@@ -42,6 +44,12 @@ const Calculator = () => {
       let currOperators = operators;
       currOperators.push(btn);
       setOperators(currOperators);
+
+      //if there is a part to evaluate already, eval it
+      if (displayTop.indexOf("*", "/", "+", "-") > 0) {
+        //call evaluate function on display top
+        console.warn(displayTop);
+      }
 
       let currProblem = problem;
       currProblem += display + btn;
