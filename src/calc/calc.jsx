@@ -4,90 +4,101 @@ import Display from "./display.jsx";
 import ButtonsPanel from "./buttons.jsx";
 
 const Calculator = () => {
-  //functions and states
-  const [display, setDisplay] = useState("0");
-  const [displayTop, setDisplayTop] = useState("");
-  //lists for operands and operators to help with order of ops
-  const [operands, setOperands] = useState([]);
-  const [operators, setOperators] = useState([]);
-  //may not need to do that, maybe js can handle it all
-  const [problem, setProblem] = useState("");
+  const [operandCurr, setOperandCurr] = useState("");
+  const [operandPrev, setOperandPrev] = useState("");
+  const [operation, setOperation] = useState();
 
-  const evaluate = (operands, operators) => {};
-
-  const handleSubmit = () => {
-    let result = problem;
-    result += display;
-    setDisplayTop("");
-    setDisplay(eval(result));
+  const evaluate = (prev, curr, operation) => {
+    console.log("now evaluating: ", prev, curr, operation);
+    switch (operation) {
+      case "+": {
+        return Number(prev) + Number(curr);
+      }
+      case "-": {
+        return Number(prev) - Number(curr);
+      }
+      case "x": {
+        return Number(prev) * Number(curr);
+      }
+      case "/": {
+        return Number(prev) / Number(curr);
+      }
+      default:
+        return undefined;
+    }
   };
+
+  const handleSubmit = () => {};
 
   const handlePress = (e) => {
     console.log("button pressed", e.target.id);
     let btn = e.target.id;
+    const operations = ["+", "-", "x", "/"];
+    const findOperation = (btn) => {
+      return operations.includes(btn);
+    };
 
-    if (btn === "x") {
-      btn = "*";
+    //press operand
+    if (btn >= 0) {
+      //if operation is being displayed currently (add it to prev display)
+      if ([...operandCurr].some(findOperation)) {
+        // setOperandPrev((operandPrev) => operandPrev + operation);
+
+        setOperandCurr(btn);
+        return;
+      }
+      setOperandCurr((operandCurr) => (operandCurr += btn));
     }
-
-    //logic
-    //operand
-    if (btn >= 0 || btn === ".") {
-      setDisplay((display) => Number(display + btn));
-    }
-    //operator
-    if (["+", "-", "*", "/", "^"].includes(btn)) {
-      let currOperands = operands;
-      currOperands.push(display);
-      setOperands(currOperands);
-
-      let currOperators = operators;
-      currOperators.push(btn);
-      setOperators(currOperators);
-
-      //if there is a part to evaluate already, eval it
-      if (displayTop.indexOf("*", "/", "+", "-") > 0) {
-        //call evaluate function on display top
-        console.warn(displayTop);
+    //press operator
+    if (operations.includes(btn)) {
+      //if operation is being displayed currently (change operation)
+      if ([...operandCurr].some(findOperation)) {
+        setOperandCurr(btn);
+        setOperation(btn);
+        return;
       }
 
-      let currProblem = problem;
-      currProblem += display + btn;
-      setProblem(currProblem);
-      setDisplayTop(currProblem);
-      setDisplay("");
+      //if previous operand exists (evaluate)
+      if (operandPrev && operation) {
+        //evaluate the previous operation
+        // set previous operation to be output of eval
+        let result = evaluate(operandPrev, operandCurr, operation);
+        console.log("eval: ", result);
+        //set current operation to pressed operator
+        setOperandPrev(result);
+        setOperation(btn);
+        return;
+      }
+
+      setOperation(btn);
+      setOperandPrev(operandCurr);
+      setOperandCurr(btn);
     }
-    //execute
+    //press =
     if (btn === "=") {
-      // alert(operands, operators);
-
-      let currOperands = operands;
-      currOperands.push(display);
-      setOperands(currOperands);
-
-      let currProblem = problem;
-      currProblem += display;
-      setProblem(currProblem);
-
-      handleSubmit();
+      console.log({
+        operandCurr: operandCurr,
+        operandPrev: operandPrev,
+        operation: operation,
+      });
     }
-    //reset
+    //press clear all
     if (btn === "c") {
-      setDisplay("");
-      setDisplayTop("");
-      setOperands([]);
-      setOperators([]);
-      setProblem("");
+      setOperandCurr("0");
+      setOperandPrev("");
+      setOperation("");
     }
-    //backspace
+    //press delete
     if (btn === "del") {
-      setDisplay((display) => display.slice(0, display.length - 1));
+      setOperandCurr((operandCurr) =>
+        operandCurr.slice(0, operandCurr.length - 1)
+      );
     }
   };
 
   return (
     <div className="calcBody">
-      <Display display={display} displayTop={displayTop} />
+      <Display curr={operandCurr} prev={operandPrev} operation={operation} />
       <ButtonsPanel handlePress={handlePress} />
     </div>
   );
