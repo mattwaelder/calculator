@@ -28,10 +28,9 @@ const Calculator = () => {
     }
   };
 
-  const handleSubmit = () => {};
-
   const handlePress = (e) => {
     console.log("button pressed", e.target.id);
+    console.log("test", operandCurr, typeof operandCurr);
     let btn = e.target.id;
     const operations = ["+", "-", "x", "/"];
 
@@ -46,73 +45,69 @@ const Calculator = () => {
       if ([...operandCurr].some(findOperation)) {
         console.log("btn when operation on screen");
         setOperation(operandCurr);
-        setOperandPrev((operandPrev) => operandPrev + operation);
+        // setOperandPrev((operandPrev) => operandPrev);
         setOperandCurr(btn);
         return;
       } else {
         console.log("add");
         setOperandCurr((operandCurr) => (operandCurr += btn));
       }
-
-      // setOperandCurr((operandCurr) => operandCurr);
+      return;
     }
 
     //press operator
     if (operations.includes(btn)) {
+      console.log("111");
       //if operation is being displayed currently (change operation)
       if ([...operandCurr].some(findOperation)) {
         console.log("operator already displayed");
         setOperation(btn);
         setOperandCurr(btn);
         return;
+      } else {
+        console.log("OI");
       }
 
       //if first operation
       if (!operation) {
+        console.log("222");
         console.log("FIRST TIME", operandCurr);
         let curr = operandCurr;
         console.log(curr);
         setOperandPrev(curr);
         setOperandCurr(btn);
-        // setOperation(btn);
+        setOperation(btn);
         return;
       }
 
       //if previous operand exists (evaluate)
       if (operation) {
+        console.log("333");
         console.log("NOT FIRST");
         //evaluate the previous operation
         // set previous operation to be output of eval
         let result = evaluate(operandPrev, operandCurr, operation);
         console.log("eval: ", result);
         //set current operation to pressed operator
-        setOperandPrev(result);
-        setOperandCurr("");
-        setOperation(btn);
+        setOperandPrev(result.toString());
+        setOperandCurr(btn);
+        setOperation("");
         return;
       }
-      // console.log("set operation");
-      // setOperation(btn);
-      // setOperandPrev(operandCurr);
-      // setOperandCurr(btn);
     }
 
     //press =
     if (btn === "=") {
-      console.log({
-        operandCurr: operandCurr,
-        operandPrev: operandPrev,
-        operation: operation,
-      });
+      console.log(operandCurr, typeof operandCurr);
       let result = evaluate(operandPrev, operandCurr, operation);
       setOperandPrev("");
       setOperation("");
-      setOperandCurr(result);
+      setOperandCurr(result.toString());
     }
 
     //press clear all
     if (btn === "c") {
-      setOperandCurr("0");
+      setOperandCurr("");
       setOperandPrev("");
       setOperation("");
     }
@@ -137,5 +132,9 @@ export default Calculator;
 
 // a calculator application
 /*
+
+  remove pwr
+  make it look nicer
+  allow for continued calculations even after = is pressed
 
 */
