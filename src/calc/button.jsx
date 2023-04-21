@@ -1,9 +1,9 @@
 import React from "react";
 
-const Button = ({ btn, handlePress }) => {
+const Button = ({ btn, handlePress, big }) => {
   return (
     <div
-      className="calcButton"
+      className={`${big ? "calcButtonBig" : "calcButton"}`}
       id={`${btn}`}
       onClick={handlePress}
     >{`${btn}`}</div>

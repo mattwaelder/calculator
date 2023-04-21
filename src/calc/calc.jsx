@@ -10,6 +10,13 @@ const Calculator = () => {
 
   const evaluate = (prev, curr, operation) => {
     console.log("now evaluating: ", prev, curr, operation);
+
+    //splitting prev and curr to account for decimals
+    let [prevNum, prevDec] = prev.split(".");
+    let [currNum, currDec] = curr.split(".");
+    console.log(prevNum, prevDec);
+    console.log(currNum, currDec);
+
     switch (operation) {
       case "+": {
         return Number(prev) + Number(curr);
@@ -24,7 +31,7 @@ const Calculator = () => {
         return Number(prev) / Number(curr);
       }
       default:
-        return undefined;
+        return curr;
     }
   };
 
@@ -39,7 +46,7 @@ const Calculator = () => {
     };
 
     //press operand
-    if (Number(btn) >= 0) {
+    if (Number(btn) >= 0 || btn === ".") {
       console.log("Number pressed");
       //if operation is being displayed currently (add it to prev display)
       if ([...operandCurr].some(findOperation)) {
@@ -98,11 +105,11 @@ const Calculator = () => {
 
     //press =
     if (btn === "=") {
-      console.log(operandCurr, typeof operandCurr);
       let result = evaluate(operandPrev, operandCurr, operation);
       setOperandPrev("");
       setOperation("");
-      setOperandCurr(result.toString());
+      console.log(result);
+      setOperandCurr(result.toString() || "");
     }
 
     //press clear all
@@ -133,8 +140,10 @@ export default Calculator;
 // a calculator application
 /*
 
-  remove pwr
-  make it look nicer
-  allow for continued calculations even after = is pressed
+make it look nicer
+account for decimals more properly rather than doing tofixed on everything
+add commas?
+make it so operations show on prev only not curr screen
+may need a sepperate function which formats the numbers based on whether its before or after the decimal...
 
 */
