@@ -10,6 +10,13 @@ const Calculator = () => {
 
   const evaluate = (prev, curr, operation) => {
     console.log("now evaluating: ", prev, curr, operation);
+
+    //splitting prev and curr to account for decimals
+    let [prevNum, prevDec] = prev.split(".");
+    let [currNum, currDec] = curr.split(".");
+    console.log(prevNum, prevDec);
+    console.log(currNum, currDec);
+
     switch (operation) {
       case "+": {
         return Number(prev) + Number(curr);
@@ -24,14 +31,13 @@ const Calculator = () => {
         return Number(prev) / Number(curr);
       }
       default:
-        return undefined;
+        return curr;
     }
   };
 
-  const handleSubmit = () => {};
-
   const handlePress = (e) => {
     console.log("button pressed", e.target.id);
+    console.log("test", operandCurr, typeof operandCurr);
     let btn = e.target.id;
     const operations = ["+", "-", "x", "/"];
 
@@ -40,79 +46,75 @@ const Calculator = () => {
     };
 
     //press operand
-    if (Number(btn) >= 0) {
+    if (Number(btn) >= 0 || btn === ".") {
       console.log("Number pressed");
       //if operation is being displayed currently (add it to prev display)
       if ([...operandCurr].some(findOperation)) {
         console.log("btn when operation on screen");
         setOperation(operandCurr);
-        setOperandPrev((operandPrev) => operandPrev + operation);
+        // setOperandPrev((operandPrev) => operandPrev);
         setOperandCurr(btn);
         return;
       } else {
         console.log("add");
         setOperandCurr((operandCurr) => (operandCurr += btn));
       }
-
-      // setOperandCurr((operandCurr) => operandCurr);
+      return;
     }
 
     //press operator
     if (operations.includes(btn)) {
+      console.log("111");
       //if operation is being displayed currently (change operation)
       if ([...operandCurr].some(findOperation)) {
         console.log("operator already displayed");
         setOperation(btn);
         setOperandCurr(btn);
         return;
+      } else {
+        console.log("OI");
       }
 
       //if first operation
       if (!operation) {
+        console.log("222");
         console.log("FIRST TIME", operandCurr);
         let curr = operandCurr;
         console.log(curr);
         setOperandPrev(curr);
         setOperandCurr(btn);
-        // setOperation(btn);
+        setOperation(btn);
         return;
       }
 
       //if previous operand exists (evaluate)
       if (operation) {
+        console.log("333");
         console.log("NOT FIRST");
         //evaluate the previous operation
         // set previous operation to be output of eval
         let result = evaluate(operandPrev, operandCurr, operation);
         console.log("eval: ", result);
         //set current operation to pressed operator
-        setOperandPrev(result);
-        setOperandCurr("");
-        setOperation(btn);
+        setOperandPrev(result.toString());
+        setOperandCurr(btn);
+        setOperation("");
         return;
       }
-      // console.log("set operation");
-      // setOperation(btn);
-      // setOperandPrev(operandCurr);
-      // setOperandCurr(btn);
     }
 
     //press =
     if (btn === "=") {
-      console.log({
-        operandCurr: operandCurr,
-        operandPrev: operandPrev,
-        operation: operation,
-      });
       let result = evaluate(operandPrev, operandCurr, operation);
       setOperandPrev("");
       setOperation("");
-      setOperandCurr(result);
+      console.log(result);
+      setOperandCurr(result.toString() || "");
     }
 
     //press clear all
     if (btn === "c") {
-      setOperandCurr("0");
+      setOperandCurr("");
       setOperandPrev("");
       setOperation("");
     }
@@ -137,5 +139,11 @@ export default Calculator;
 
 // a calculator application
 /*
+
+make it look nicer
+account for decimals more properly rather than doing tofixed on everything
+add commas?
+make it so operations show on prev only not curr screen
+may need a sepperate function which formats the numbers based on whether its before or after the decimal...
 
 */

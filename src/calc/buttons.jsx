@@ -21,16 +21,29 @@ const ButtonsPanel = ({ handlePress }) => {
     0,
     "del",
     "/",
-    "^",
     "c",
     "=",
   ];
 
   return (
     <div className="buttonPanelContainer">
-      {buttonList.map((button, i) => (
-        <Button btn={button} handlePress={handlePress} key={button} />
-      )) || null}
+      {buttonList.map((button, i) =>
+        button === "=" || button === "c" ? (
+          <Button
+            btn={button}
+            handlePress={handlePress}
+            key={button}
+            big={true}
+          />
+        ) : (
+          <Button
+            btn={button}
+            handlePress={handlePress}
+            key={button}
+            big={false}
+          />
+        )
+      ) || null}
     </div>
   );
 };

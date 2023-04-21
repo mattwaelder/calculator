@@ -62,3 +62,16 @@ html body {
   border-radius: 6px;
   cursor: pointer;
 }
+
+.calcButtonBig {
+  height: 3em;
+  /* width: 3em; */
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  /* border: 1px solid cornflowerblue; */
+  border-radius: 6px;
+  cursor: pointer;
+}
