@@ -28,6 +28,9 @@ const Calculator = () => {
         return Number(prev) * Number(curr);
       }
       case "/": {
+        if (prev === "0" && curr === "0") {
+          return "easter";
+        }
         return Number(prev) / Number(curr);
       }
       default:
@@ -121,6 +124,14 @@ const Calculator = () => {
         setOperandCurr(
           roundedResultDecimal === "0" ? Math.round(result) : result.toFixed(2)
         );
+        return;
+      }
+
+      //easter egg
+      if (result === "easter") {
+        setOperandPrev("");
+        setOperation("");
+        setOperandCurr("ಠ_ಠ");
         return;
       }
 
