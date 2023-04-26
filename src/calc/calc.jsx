@@ -28,6 +28,9 @@ const Calculator = () => {
         return Number(prev) * Number(curr);
       }
       case "/": {
+        if (prev === "0" && curr === "0") {
+          return "easter";
+        }
         return Number(prev) / Number(curr);
       }
       default:
@@ -106,6 +109,32 @@ const Calculator = () => {
     //press =
     if (btn === "=") {
       let result = evaluate(operandPrev, operandCurr, operation);
+      let decimal = result.toString().split(".")[1];
+
+      //accounting for floating point issues within js
+      //8.2 - 0.2 = 7.999999999999
+      //8.3 - 0.1 = 8.1000000000001
+      if (decimal && decimal.length > 5) {
+        let roundedResult = result.toFixed(1);
+        let roundedResultDecimal = roundedResult.split(".")[1];
+
+        setOperandPrev("");
+        setOperation("");
+        //if the decimal is 0, remove it, otherwise round to 1 place
+        setOperandCurr(
+          roundedResultDecimal === "0" ? Math.round(result) : result.toFixed(2)
+        );
+        return;
+      }
+
+      //easter egg
+      if (result === "easter") {
+        setOperandPrev("");
+        setOperation("");
+        setOperandCurr("ಠ_ಠ");
+        return;
+      }
+
       setOperandPrev("");
       setOperation("");
       console.log(result);
