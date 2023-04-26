@@ -106,6 +106,17 @@ const Calculator = () => {
     //press =
     if (btn === "=") {
       let result = evaluate(operandPrev, operandCurr, operation);
+
+      //accounting for floating point issues within js
+      //8.2 - 0.2 = 7.999999999999
+      if (Number(result.toString().split(".")[1]) > 9999999) {
+        setOperandPrev("");
+        setOperation("");
+        console.log(result, Math.round(result));
+        setOperandCurr(Math.round(result).toString() || "");
+        return;
+      }
+
       setOperandPrev("");
       setOperation("");
       console.log(result);
