@@ -27,7 +27,7 @@ const Calculator = () => {
       case "x": {
         return Number(prev) * Number(curr);
       }
-      case "/": {
+      case "÷": {
         if (curr === "0") {
           return "easter";
         }
@@ -42,7 +42,7 @@ const Calculator = () => {
     console.log("button pressed", e.target.id);
     console.log("test", operandCurr, typeof operandCurr);
     let btn = e.target.id;
-    const operations = ["+", "-", "x", "/"];
+    const operations = ["+", "-", "x", "÷"];
 
     const findOperation = (btn) => {
       return operations.includes(btn);

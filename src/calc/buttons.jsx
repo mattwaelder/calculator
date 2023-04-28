@@ -20,7 +20,7 @@ const ButtonsPanel = ({ handlePress }) => {
     ".",
     0,
     "del",
-    "/",
+    "÷",
     "c",
     "=",
   ];
