@@ -2,88 +2,43 @@ import React, { useState } from "react";
 import "./styles.css";
 import Display from "./display.jsx";
 import ButtonsPanel from "./buttons.jsx";
+import helpers from "./helpers.js";
 
 const Calculator = () => {
+  //states for 1 operator and 2 operands
   const [operandCurr, setOperandCurr] = useState("");
   const [operandPrev, setOperandPrev] = useState("");
   const [operation, setOperation] = useState("");
 
-  const evaluate = (prev, curr, operation) => {
-    console.log("now evaluating: ", prev, curr, operation);
-
-    //splitting prev and curr to account for decimals
-    let [prevNum, prevDec] = prev.split(".");
-    let [currNum, currDec] = curr.split(".");
-    console.log(prevNum, prevDec);
-    console.log(currNum, currDec);
-
-    switch (operation) {
-      case "+": {
-        return Number(prev) + Number(curr);
-      }
-      case "-": {
-        return Number(prev) - Number(curr);
-      }
-      case "x": {
-        return Number(prev) * Number(curr);
-      }
-      case "/": {
-        if (prev === "0" && curr === "0") {
-          return "easter";
-        }
-        return Number(prev) / Number(curr);
-      }
-      default:
-        return curr;
-    }
-  };
-
+  //any button pressed
   const handlePress = (e) => {
-    console.log("button pressed", e.target.id);
-    console.log("test", operandCurr, typeof operandCurr);
     let btn = e.target.id;
-    const operations = ["+", "-", "x", "/"];
-
-    const findOperation = (btn) => {
-      return operations.includes(btn);
-    };
 
     //press operand
     if (Number(btn) >= 0 || btn === ".") {
-      console.log("Number pressed");
       //if operation is being displayed currently (add it to prev display)
-      if ([...operandCurr].some(findOperation)) {
-        console.log("btn when operation on screen");
+      if ([...operandCurr].some(helpers.findOperation)) {
         setOperation(operandCurr);
-        // setOperandPrev((operandPrev) => operandPrev);
         setOperandCurr(btn);
         return;
       } else {
-        console.log("add");
         setOperandCurr((operandCurr) => (operandCurr += btn));
       }
       return;
     }
 
     //press operator
-    if (operations.includes(btn)) {
-      console.log("111");
+    if (helpers.operations.includes(btn)) {
       //if operation is being displayed currently (change operation)
-      if ([...operandCurr].some(findOperation)) {
-        console.log("operator already displayed");
+      if ([...operandCurr].some(helpers.findOperation)) {
         setOperation(btn);
         setOperandCurr(btn);
         return;
-      } else {
-        console.log("OI");
       }
 
       //if first operation
       if (!operation) {
-        console.log("222");
-        console.log("FIRST TIME", operandCurr);
         let curr = operandCurr;
-        console.log(curr);
         setOperandPrev(curr);
         setOperandCurr(btn);
         setOperation(btn);
@@ -92,13 +47,9 @@ const Calculator = () => {
 
       //if previous operand exists (evaluate)
       if (operation) {
-        console.log("333");
-        console.log("NOT FIRST");
         //evaluate the previous operation
+        let result = helpers.evaluate(operandPrev, operandCurr, operation);
         // set previous operation to be output of eval
-        let result = evaluate(operandPrev, operandCurr, operation);
-        console.log("eval: ", result);
-        //set current operation to pressed operator
         setOperandPrev(result.toString());
         setOperandCurr(btn);
         setOperation("");
@@ -108,7 +59,7 @@ const Calculator = () => {
 
     //press =
     if (btn === "=") {
-      let result = evaluate(operandPrev, operandCurr, operation);
+      let result = helpers.evaluate(operandPrev, operandCurr, operation);
       let decimal = result.toString().split(".")[1];
 
       //accounting for floating point issues within js
@@ -137,12 +88,11 @@ const Calculator = () => {
 
       setOperandPrev("");
       setOperation("");
-      console.log(result);
       setOperandCurr(result.toString() || "");
     }
 
     //press clear all
-    if (btn === "c") {
+    if (btn === "C") {
       setOperandCurr("");
       setOperandPrev("");
       setOperation("");
@@ -167,12 +117,3 @@ const Calculator = () => {
 export default Calculator;
 
 // a calculator application
-/*
-
-make it look nicer
-account for decimals more properly rather than doing tofixed on everything
-add commas?
-make it so operations show on prev only not curr screen
-may need a sepperate function which formats the numbers based on whether its before or after the decimal...
-
-*/
