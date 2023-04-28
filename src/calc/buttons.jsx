@@ -16,34 +16,25 @@ const ButtonsPanel = ({ handlePress }) => {
     7,
     8,
     9,
-    "x",
+    "×",
     ".",
     0,
     "del",
     "÷",
-    "c",
+    "C",
     "=",
   ];
 
   return (
     <div className="buttonPanelContainer">
-      {buttonList.map((button, i) =>
-        button === "=" || button === "c" ? (
-          <Button
-            btn={button}
-            handlePress={handlePress}
-            key={button}
-            big={true}
-          />
-        ) : (
-          <Button
-            btn={button}
-            handlePress={handlePress}
-            key={button}
-            big={false}
-          />
-        )
-      ) || null}
+      {buttonList.map((button, i) => (
+        <Button
+          btn={button}
+          handlePress={handlePress}
+          key={button}
+          big={button === "=" || button === "C" ? true : false}
+        />
+      ))}
     </div>
   );
 };
