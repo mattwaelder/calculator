@@ -1,33 +1,14 @@
 import React from "react";
 import Button from "./button.jsx";
+import helpers from "./helpers.js";
 import "./styles.css";
 
 const ButtonsPanel = ({ handlePress }) => {
-  //listing buttons in a strange way so thati dont need multiple grids
-  const buttonList = [
-    1,
-    2,
-    3,
-    "+",
-    4,
-    5,
-    6,
-    "-",
-    7,
-    8,
-    9,
-    "×",
-    ".",
-    0,
-    "del",
-    "÷",
-    "C",
-    "=",
-  ];
+  //all buttons in an arr in helpers file
 
   return (
     <div className="buttonPanelContainer">
-      {buttonList.map((button, i) => (
+      {helpers.buttonList.map((button, i) => (
         <Button
           btn={button}
           handlePress={handlePress}

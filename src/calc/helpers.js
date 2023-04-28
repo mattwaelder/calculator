@@ -24,8 +24,29 @@ const helpers = {
   operations: ["+", "-", "×", "÷"],
 
   findOperation: (btn) => {
-    return this.operations.includes(btn);
+    return helpers.operations.includes(btn);
   },
+
+  buttonList: [
+    1,
+    2,
+    3,
+    "+",
+    4,
+    5,
+    6,
+    "-",
+    7,
+    8,
+    9,
+    "×",
+    ".",
+    0,
+    "del",
+    "÷",
+    "C",
+    "=",
+  ],
 };
 
 export default helpers;

@@ -17,7 +17,7 @@ const Calculator = () => {
     //press operand
     if (Number(btn) >= 0 || btn === ".") {
       //if operation is being displayed currently (add it to prev display)
-      if ([...operandCurr].some(helpers.operations)) {
+      if ([...operandCurr].some(helpers.findOperation)) {
         setOperation(operandCurr);
         setOperandCurr(btn);
         return;
@@ -30,7 +30,7 @@ const Calculator = () => {
     //press operator
     if (helpers.operations.includes(btn)) {
       //if operation is being displayed currently (change operation)
-      if ([...operandCurr].some(helpers.operations)) {
+      if ([...operandCurr].some(helpers.findOperation)) {
         setOperation(btn);
         setOperandCurr(btn);
         return;
