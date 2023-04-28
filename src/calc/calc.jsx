@@ -28,7 +28,7 @@ const Calculator = () => {
         return Number(prev) * Number(curr);
       }
       case "/": {
-        if (prev === "0" && curr === "0") {
+        if (curr === "0") {
           return "easter";
         }
         return Number(prev) / Number(curr);
@@ -167,12 +167,3 @@ const Calculator = () => {
 export default Calculator;
 
 // a calculator application
-/*
-
-make it look nicer
-account for decimals more properly rather than doing tofixed on everything
-add commas?
-make it so operations show on prev only not curr screen
-may need a sepperate function which formats the numbers based on whether its before or after the decimal...
-
-*/
