@@ -12,7 +12,8 @@ html body {
 
 .calcBody {
   background-color: rgba(250, 250, 250, 0.5);
-  width: 25vw;
+  width: 400px;
+  max-width: 500px;
   height: auto;
   padding: 3em 0 3em 0;
   position: absolute;
@@ -97,8 +98,10 @@ html body {
 }
 
 /* just to make it function on phones */
-@media (max-width: 1000px) {
+
+@media (max-width: 500px) {
   .calcBody {
     width: 90vw;
+    min-width: 350px;
   }
 }
